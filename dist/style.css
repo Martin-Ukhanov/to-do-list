@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
+:root {
+    --color-1: #EBEBD3;
+    --color-2: #76807C;
+    --color-3: #001524;
+    --border-radius: 6px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Merriweather', serif;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    color: var(--color-1);
+    background-color: var(--color-3);
+}
+
+/* Main */
+main {
+    height: 100%;
+    background-color: var(--color-1);
+}
+
+/* Nav */
+nav {
+    height: 100%;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    padding: 1rem;
+    color: var(--color-1);
+    background-color: var(--color-2);
+}
+
+nav .btn {
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    color: var(--color-3);
+    background-color: var(--color-1);
+}
+
+/* Footer */
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    color: var(--color-1);
+    background-color: var(--color-3);
+}
