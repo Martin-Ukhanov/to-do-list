@@ -1,0 +1,25 @@
+{
+  "name": "to-do-list",
+  "version": "1.0.0",
+  "description": "To do list application created for The Odin Project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Martin5429/to-do-list.git"
+  },
+  "author": "Martin Ukhanov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Martin5429/to-do-list/issues"
+  },
+  "homepage": "https://github.com/Martin5429/to-do-list#readme",
+  "devDependencies": {
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
+  }
+}
