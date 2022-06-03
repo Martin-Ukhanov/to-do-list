@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 :root {
     --color-1: #EBEBD3;
-    --color-2: #76807C;
-    --color-3: #001524;
+    --color-2: #8D958D;
+    --color-3: #76807C;
+    --color-4: #001524;
     --border-radius: 6px;
 }
 
@@ -15,47 +16,95 @@
   margin: 0;
 }
 
+.material-symbols-outlined {
+    vertical-align: top;
+}
+
 body {
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    font-family: 'Merriweather', serif;
+    font-family: 'Poppins', sans-serif;
+}
+
+button {
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
 }
 
 /* Header */
 header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 1rem;
     color: var(--color-1);
-    background-color: var(--color-3);
+    background-color: var(--color-4);
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+header .logo .material-symbols-outlined {
+    font-size: 3rem;
+}
+
+header button {
+    display: none;
+    padding: 0.4rem;
+    color: var(--color-1);
+    background-color: var(--color-4);
+}
+
+header button .material-symbols-outlined { 
+    font-size: 2rem;
 }
 
 /* Main */
 main {
     height: 100%;
+    display: flex;
     background-color: var(--color-1);
 }
 
 /* Nav */
 nav {
     height: 100%;
-    width: 300px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
-    padding: 1rem;
+    padding: 1rem 0 1rem 0;
     color: var(--color-1);
-    background-color: var(--color-2);
+    background-color: var(--color-3);
 }
 
-nav .btn {
+nav .task,
+nav .project {
+    display: flex;
+    flex-direction: column;
+}
+
+nav h2 {
+    padding-left: 1rem;
+}
+
+nav button {
+    display: flex;
+    column-gap: 0.5rem;
     padding: 1rem;
-    border-radius: var(--border-radius);
-    color: var(--color-3);
-    background-color: var(--color-1);
+    text-align: left;
+    color: var(--color-1);
+    background-color: var(--color-3);
+}
+
+nav button:hover,
+nav button.active {
+    background-color: var(--color-2);
 }
 
 /* Footer */
@@ -65,5 +114,25 @@ footer {
     align-items: center;
     padding: 1rem;
     color: var(--color-1);
-    background-color: var(--color-3);
+    background-color: var(--color-4);
+}
+
+/* Media queries */
+@media (max-width: 700px) {
+    header button {
+        display: block;
+    }
+
+    main {
+        flex-direction: column;
+    }
+
+    nav {
+        width: 100%;
+        height: auto;
+    }
+
+    nav.hidden {
+        display: none;
+    }
 }
