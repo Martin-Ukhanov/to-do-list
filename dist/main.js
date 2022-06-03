@@ -1,0 +1,1 @@
+(()=>{"use strict";const e=document.querySelectorAll("nav .task button");e.forEach((t=>{t.addEventListener("click",(t=>{e.forEach((e=>{e.classList.remove("active")})),t.target.classList.add("active")}))})),document.querySelector("header .toggle-nav-btn").addEventListener("click",(()=>{document.querySelector("nav").classList.toggle("hidden")}))})();
