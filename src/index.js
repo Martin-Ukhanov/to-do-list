@@ -1,19 +1,6 @@
-import {task} from './modules/task';
+import {toDoList} from "./modules/toDoList";
+import {initNav} from "./modules/UI";
 
-const navBtns = document.querySelectorAll('nav .task button');
+const tasksGrid = document.getElementById('tasks-grid');
 
-navBtns.forEach((navBtn) => {
-    navBtn.addEventListener('click', (e) => {
-        navBtns.forEach((navBtn) => {
-            navBtn.classList.remove('active');
-        })
-        e.target.classList.add('active');
-    });
-});
-
-const toggleNavBtn = document.querySelector('header .toggle-nav-btn');
-
-toggleNavBtn.addEventListener('click', () => {
-    const nav = document.querySelector('nav');
-    nav.classList.toggle('hidden');
-});
+initNav();

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>To Do List</title>
         <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         <script src="main.js" defer></script>
     </head>
     <body>
@@ -21,22 +21,26 @@
         </header>
         <main>
             <nav>
-                <div class="task">
+                <div class="tasks-nav">
                     <h2>Tasks</h2>
-                    <button>
+                    <button id="all-tasks-btn">
                         <span class="material-symbols-outlined">calendar_month</span>
                         All
                     </button>
-                    <button>
+                    <button id="today-tasks-btn">
                         <span class="material-symbols-outlined">today</span>
                         Today
                     </button>
-                    <button>
+                    <button id="this-week-tasks-btn">
                         <span class="material-symbols-outlined">date_range</span>
                         This Week
                     </button>
+                    <button id="completed-tasks-btn">
+                        <span class="material-symbols-outlined">event_available</span>
+                        Completed
+                    </button>
                 </div>
-                <div class="project">
+                <div class="projects-nav">
                     <h2>Projects</h2>
                     <button>
                         <span class="material-symbols-outlined">add</span>
@@ -45,7 +49,12 @@
                 </div>
             </nav>
             <div id="content">
-
+                <h2 class="heading">All</h2>
+                <div id="tasks-grid"></div>
+                <button id="add-task-btn">
+                    <span class="material-symbols-outlined">add</span>
+                    Add Task
+                </button>
             </div>
         </main>
         <footer>

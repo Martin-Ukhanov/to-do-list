@@ -1,13 +1,17 @@
-const task = (name, priority, dueDate = null) => {
-    this.name = name;
-    this.priority = priority;
-    this.dueDate = dueDate;
-
+const task = (name, project, priority, dueDate = null) => {
     const getName = () => name;
-    const getPriority = () => priority;
-    const getDueDate = () => dueDate;
+    const setName = (newName) => name = newName;
 
-    return {getName, getPriority, getDueDate};
+    const getProject = () => project;
+    const setProject = (newProject) => project = newProject;
+
+    const getPriority = () => priority;
+    const setPriority = (newPriority) => priority = newPriority;
+
+    const getDueDate = () => dueDate;
+    const setDueDate = (newDuedate) => dueDate = newDuedate;
+
+    return {getName, setName, getProject, setProject, getPriority, setPriority, getDueDate, setDueDate};
 }
 
 export {task};
