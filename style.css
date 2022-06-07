@@ -6,7 +6,7 @@
     --color-3: #76807C;
     --color-4: #001524;
     --header-height: 80px;
-    --footer-height: 50px;
+    --menu-width: 300px;
 }
 
 *,
@@ -19,9 +19,6 @@
 
 body {
     min-width: 450px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -42,39 +39,26 @@ button {
 header {
     height: var(--header-height);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding-left: calc(var(--menu-width) / 4);
     color: var(--color-1);
     background-color: var(--color-4);
 }
 
-header .logo {
+header .heading {
     display: flex;
-    align-items: center;
-}
-
-header .material-symbols-outlined {
-    font-size: 3rem;
-}
-
-header button {
-    display: none;
-    padding: 0.4rem;
-    color: var(--color-1);
-    background-color: var(--color-4);
 }
 
 /* Main */
 main {
-    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+    min-height: calc(100vh - var(--header-height));
     display: flex;
 }
 
-/* Nav */
-main > nav {
-    width: 250px;
-    display: flex;
+/* Menu */
+#menu {
+    width: var(--menu-width);
+    display: none;
     flex-direction: column;
     row-gap: 1rem;
     padding: 1rem 0 1rem 0;
@@ -82,17 +66,31 @@ main > nav {
     background-color: var(--color-3);
 }
 
-main > nav .tasks-nav,
-main > nav .projects-nav {
+#menu.active {
+    display: flex;
+}
+
+#menu > div > div {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 1rem;
+}
+
+#menu > div > div .material-symbols-outlined {
+    font-size: 2rem;
+}
+
+#menu nav.tasks,
+#menu nav.projects {
     display: flex;
     flex-direction: column;
 }
 
-main > nav h2 {
+#menu h2 {
     padding-left: 1rem;
 }
 
-main > nav button {
+#menu nav button {
     display: flex;
     column-gap: 0.5rem;
     padding: 1rem;
@@ -100,8 +98,8 @@ main > nav button {
     background-color: var(--color-3);
 }
 
-main > nav button:hover,
-main > nav button.active {
+#menu nav button:hover,
+#menu nav button.active {
     background-color: var(--color-2);
 }
 
@@ -116,11 +114,15 @@ main > nav button.active {
     background-color: var(--color-1);
 }
 
+
+#content > :first-child {
+    display: flex;
+}
+
 #content #add-task-btn {
     padding: 1rem;
 }
 
-/* Tasks grid */
 #tasks-grid {
     width: 100%;
     display: grid;
@@ -157,33 +159,18 @@ main > nav button.active {
     border-right: 1rem solid green;
 }
 
-/* Footer */
-footer {
-    height: var(--footer-height);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    color: var(--color-1);
-    background-color: var(--color-4);
-}
-
 /* Media queries */
 @media (max-width: 700px) {
-    header button {
-        display: block;
+    header {
+        justify-content: center;
+        padding-left: 0;
     }
-
+    
     main {
         flex-direction: column;
     }
 
-    main > nav {
+    #menu {
         width: 100%;
-        height: auto;
-    }
-
-    main > nav.hidden {
-        display: none;
     }
 }
