@@ -1,1 +1,1 @@
-(()=>{"use strict";var e={};(e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})})(e),document.getElementById("tasks-grid"),(0,e.initNav)()})();
+document.querySelectorAll(".toggle-menu-btn").forEach((e=>{e.addEventListener("click",(()=>{document.getElementById("menu").classList.toggle("active")}))}));
