@@ -12,6 +12,6 @@ const task = (name, project, priority, dueDate = null) => {
     const setDueDate = (newDuedate) => dueDate = newDuedate;
 
     return {getName, setName, getProject, setProject, getPriority, setPriority, getDueDate, setDueDate};
-}
+};
 
 export {task};

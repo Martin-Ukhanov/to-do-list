@@ -6,64 +6,57 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>To Do List</title>
         <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
         <script src="main.js" defer></script>
     </head>
     <body>
         <header>
             <h1>To Do List</h1>
+            <button id="toggle-menu-btn" class="material-symbols-outlined">
+                menu
+            </button>
         </header>
         <main>
             <div id="menu" class="active">
                 <div>
-                    <div>
-                        <h2>Tasks</h2>
-                        <button class="toggle-menu-btn material-symbols-outlined">
-                            menu
-                        </button>
-                    </div>
-                    <nav class="tasks">
-                        <button id="all-tasks-btn">
+                    <h2>Tasks</h2>
+                    <nav class="default-projects">
+                        <button class="active">
                             <span class="material-symbols-outlined">calendar_month</span>
-                            All
+                            <p>All</p>
                         </button>
-                        <button id="today-tasks-btn">
+                        <button>
                             <span class="material-symbols-outlined">today</span>
-                            Today
+                            <p>Today</p>
                         </button>
-                        <button id="this-week-tasks-btn">
+                        <button>
                             <span class="material-symbols-outlined">date_range</span>
-                            This Week
+                            <p>This Week</p>
                         </button>
-                        <button id="completed-tasks-btn">
+                        <button>
                             <span class="material-symbols-outlined">event_available</span>
-                            Completed
+                            <p>Completed</p>
                         </button>
                     </nav>
                 </div>
                 <div>
                     <h2>Projects</h2>
-                    <nav class="projects">
-                        <button>
-                            <span class="material-symbols-outlined">add</span>
-                            Add Project
-                        </button>
-                    </nav>
+                    <button id="add-project-btn">
+                        <span class="material-symbols-outlined">add</span>
+                        <p>Add Project</p>
+                    </button>
+                    <nav class="custom-projects"></nav>
                 </div>
             </div>
             <div id="content">
-                <div>
-                    <button class="toggle-menu-btn material-symbols-outlined">
-                        menu
-                    </button>
-                    <h2 class="heading">All</h2>
-                </div>
-                <div id="tasks-grid"></div>
+                <h2 class="heading"></h2>
                 <button id="add-task-btn">
                     <span class="material-symbols-outlined">add</span>
-                    Add Task
+                    <p>Add Task</p>
                 </button>
+                <div id="tasks-grid"></div>
             </div>
         </main>
+        <div id="overlay"></div>
     </body>
 </html>

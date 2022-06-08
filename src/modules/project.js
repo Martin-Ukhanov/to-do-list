@@ -7,7 +7,7 @@ const project = (name) => {
     const getTasks = () => tasks;
     const addTask = (newTask) => tasks.push(newTask);
 
-    return {getName, setName, getTasks};
-}
+    return {getName, setName, getTasks, addTask};
+};
 
 export {project};

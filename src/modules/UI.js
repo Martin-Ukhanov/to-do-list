@@ -1,26 +1,90 @@
-const initNav = () => {
-    const allTasksBtn = document.getElementById('all-tasks-btn');
-    const todayTasksBtn = document.getElementById('today-tasks-btn');
-    const thisWeekTasksBtn = document.getElementById('this-week-tasks-btn');
-    const completedTasksBtn = document.getElementById('completed-tasks-btn');
-    const tasksNavBtns = document.querySelectorAll('main > nav .tasks-nav button');
+import {toDoList} from "./toDoList";
+import {task} from "./task";
 
-    allTasksBtn.addEventListener('click', () => loadProject('all'));
-}
+const initUI = () => {
+    initMenu();
+    initAddTaskBtn();
+};
+
+const initMenu = () => {
+    const defaultProjectBtns = document.querySelectorAll('#menu nav.default-projects button');
+    const customProjectBtns = document.querySelectorAll('#menu nav.custom-projects button');
+    const addProjectBtn = document.getElementById('add-project-btn');
+
+    const deactivateDefaultProjectBtns = () => {
+        defaultProjectBtns.forEach((defaultProjectBtn) => {
+            defaultProjectBtn.classList.remove('active');
+        });
+    }
+
+    const deactivateCustomProjectBtns = () => {
+        customProjectBtns.forEach((customProjectBtn) => {
+            customProjectBtn.classList.remove('active');
+        });
+    }
+
+    const createCustomProjectBtn = (name) => {
+        const btn = document.createElement('button');
+        const text = document.createElement('p');
+        text.textContent = name;
+        btn.appendChild(text);
+        return btn;
+    }
+
+    const p = toDoList.getProject('All');
+    p.addTask(task('Do Homework', 'School', 3, '08/05/2022'));
+
+    // Load All project by default
+    loadProject('All');
+
+    // Load corresponding default project when button is clicked
+    defaultProjectBtns.forEach((defaultProjectBtn) => {
+        defaultProjectBtn.addEventListener('click', () => {
+            deactivateDefaultProjectBtns();
+            defaultProjectBtn.classList.add('active');
+            loadProject(defaultProjectBtn.lastElementChild.textContent);
+        });
+    });
+
+    // Load corresponding custom project when button is clicked
+    customProjectBtns.forEach((customProjectBtn) => {
+        customProjectBtn.addEventListener('click', () => {
+            deactivateCustomProjectBtns();
+            customProjectBtn.classList.add('active');
+            loadProject(customProjectBtn.firstElementChild.textContent);
+        });
+    });
+
+    // Create new project
+};
 
 const initAddTaskBtn = () => {
     const addTaskBtn = document.getElementById('add-task-btn');
-    // addTaskBtn.addEventListener('click', () => );
-}
+    addTaskBtn.addEventListener('click', () => addTask());
+};
 
-const createButton = (type) => {
-    const btn = document.createElement('button');
-    btn.classList.add('material-symbols-outlined');
-    btn.textContent = type;
-    return btn;
-}
+const addTask = () => {
+    activateOverlay();
+};
+
+const activateOverlay = () => {
+    const overlay = document.getElementById('overlay');
+    overlay.classList.add('active');
+};
+
+const deactivateOverlay = () => {
+    const overlay = document.getElementById('overlay');
+    overlay.classList.remove('active');
+};
 
 const createTask = (task) => {
+    const createIconBtn = (iconType) => {
+        const btn = document.createElement('button');
+        btn.classList.add('material-symbols-outlined');
+        btn.textContent = iconType;
+        return btn;
+    };
+
     const taskContainer = document.createElement('div');
     taskContainer.classList.add('task');
 
@@ -43,9 +107,9 @@ const createTask = (task) => {
     // Nav
     const nav = document.createElement('nav');
 
-    const completeBtn = createButton('check_box_outline_blank');
-    const infoBtn = createButton('info');
-    const settingsBtn = createButton('settings');
+    const completeBtn = createIconBtn('check_box_outline_blank');
+    const infoBtn = createIconBtn('info');
+    const settingsBtn = createIconBtn('settings');
 
     nav.appendChild(completeBtn);
     nav.appendChild(infoBtn);
@@ -68,10 +132,21 @@ const createTask = (task) => {
     taskContainer.appendChild(nav);
 
     return taskContainer;
-}
+};
 
 const loadProject = (name) => {
+    const tasksGrid = document.getElementById('tasks-grid');
+    const activeProject = document.querySelector('#content .heading');
+    const project = toDoList.getProject(name);
 
+    activeProject.textContent = name;
+
+    tasksGrid.innerHTML = '';
+
+    for (const task of project.getTasks()) {
+        const taskCard = createTask(task);
+        tasksGrid.appendChild(taskCard);
+    }
 }
 
-export {createTask};
+export {initUI};

@@ -1,8 +1,10 @@
-const toggleMenuBtns = document.querySelectorAll('.toggle-menu-btn');
+import {initUI} from "./modules/UI";
 
-toggleMenuBtns.forEach((toggleMenuBtn) => {
-    toggleMenuBtn.addEventListener('click', () => {
-        const menu = document.getElementById('menu');
-        menu.classList.toggle('active');
-    });
+const toggleMenuBtn = document.getElementById('toggle-menu-btn');
+
+toggleMenuBtn.addEventListener('click', () => {
+    const menu = document.getElementById('menu');
+    menu.classList.toggle('active');
 });
+
+initUI();
