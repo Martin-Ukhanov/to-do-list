@@ -65,6 +65,7 @@ const initAddTaskBtn = () => {
 
 const addTask = () => {
     activateOverlay();
+    activateAddTaskModal();
 };
 
 const activateOverlay = () => {
@@ -76,6 +77,22 @@ const deactivateOverlay = () => {
     const overlay = document.getElementById('overlay');
     overlay.classList.remove('active');
 };
+
+const activateAddTaskModal = () => {
+    const modal = document.getElementById('modal');
+    modal.classList.add('active');
+
+    const heading = document.createElement('h2');
+    heading.textContent = 'Add Task';
+
+    modal.appendChild(heading);
+}
+
+const deactivateModal = () => {
+    const modal = document.getElementById('modal');
+    modal.classList.remove('active');
+    modal.innerHTML = '';
+}
 
 const createTask = (task) => {
     const createIconBtn = (iconType) => {
