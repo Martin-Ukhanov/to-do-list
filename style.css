@@ -179,18 +179,45 @@ main {
     transform: translate(-50%, -50%) scale(0);
     transition: 0.1s;
     z-index: 1;
-    width: 300px;
-    height: 300px;
+    width: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    row-gap: 1rem;
     padding: 1rem;
-    color: var(--color-5);
-    background-color: var(--color-1);
+    color: var(--color-1);
+    background-color: var(--color-4);
+    border: 2px solid var(--color-1);
 }
 
 #modal.active {
     transform: translate(-50%, -50%) scale(1);
+}
+
+#modal form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+#modal form input,
+#modal form button {
+    width: 100%;
+    padding: 6px;
+    font-family: inherit;
+    font-size: 100%;
+    color: inherit;
+    background-color: inherit;
+    border: 2px solid var(--color-1);
+    outline: none;
+}
+
+#modal form button {
+    margin-top: 1rem;
+}
+
+#modal form button:hover {
+    background-color: var(--color-3);
 }
 
 /* Media queries */
