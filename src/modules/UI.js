@@ -32,7 +32,7 @@ const initMenu = () => {
     }
 
     const p = toDoList.getProject('All');
-    p.addTask(task('Do Homework', 'School', 3, '08/05/2022'));
+    p.addTask(task('Homework', 'School', 3, '08/05/2022'));
 
     // Load All project by default
     loadProject('All');
@@ -85,7 +85,46 @@ const activateAddTaskModal = () => {
     const heading = document.createElement('h2');
     heading.textContent = 'Add Task';
 
+    const form = document.createElement('form');
+
+    // Name input
+    const nameInputContainer = document.createElement('div');
+
+    const nameInputLabel = document.createElement('label');
+    nameInputLabel.setAttribute('for', 'name-input');
+    nameInputLabel.textContent = 'Name:';
+
+    const nameInput = document.createElement('input');
+    nameInput.setAttribute('type', 'text');
+    nameInput.setAttribute('id', 'name-input');
+
+    nameInputContainer.appendChild(nameInputLabel);
+    nameInputContainer.appendChild(nameInput);
+
+    // Due date input
+    const dueDateInputContainer = document.createElement('div');
+    
+    const dueDateInputLabel = document.createElement('label');
+    dueDateInputLabel.setAttribute('for', 'due-date-input');
+    dueDateInputLabel.textContent = 'Due Date:';
+
+    const dueDateInput = document.createElement('input');
+    dueDateInput.setAttribute('type', 'date');
+    dueDateInput.setAttribute('id', 'due-date-input');
+
+    dueDateInputContainer.appendChild(dueDateInputLabel);
+    dueDateInputContainer.appendChild(dueDateInput);
+
+    const submitBtn = document.createElement('button');
+    submitBtn.setAttribute('type', 'submit');
+    submitBtn.textContent = 'Submit';
+    
+    form.appendChild(nameInputContainer);
+    form.appendChild(dueDateInputContainer);
+    form.appendChild(submitBtn);
+
     modal.appendChild(heading);
+    modal.appendChild(form);
 }
 
 const deactivateModal = () => {

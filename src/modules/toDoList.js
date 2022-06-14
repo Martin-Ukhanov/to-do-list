@@ -7,7 +7,6 @@ const toDoList = (() => {
     projects.push(project('All'));
     projects.push(project('Today'));
     projects.push(project('This Week'));
-    projects.push(project('Completed'));
 
     const getProjects = () => projects;
 
