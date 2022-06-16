@@ -8,7 +8,7 @@ const UI = (() => {
 
     let activeProject = 'All';
 
-    const createCustomProjectBtn = (name) => {
+    const createProjectBtn = (name) => {
         const btn = document.createElement('button');
         btn.classList.add('project');
 
@@ -59,13 +59,11 @@ const UI = (() => {
     
         // Nav
         const nav = document.createElement('nav');
-    
+        
         const completeBtn = createIconBtn('check_box_outline_blank');
-        const infoBtn = createIconBtn('info');
         const settingsBtn = createIconBtn('settings');
-    
+        
         nav.appendChild(completeBtn);
-        nav.appendChild(infoBtn);
         nav.appendChild(settingsBtn);
     
         // Priority
@@ -90,10 +88,10 @@ const UI = (() => {
     const loadProject = (name) => {
         const tasksGrid = document.getElementById('tasks-grid');
         const project = toDoList.getProject(name);
-        const activeProjectHeading = document.querySelector('#content h2');
+        const projectHeading = document.querySelector('#content h2');
 
         activeProject = name;
-        activeProjectHeading.textContent = name;
+        projectHeading.textContent = name;
         
         tasksGrid.innerHTML = '';
         
@@ -161,11 +159,17 @@ const UI = (() => {
 
         const submitBtn = document.createElement('button');
         submitBtn.setAttribute('type', 'submit');
+        submitBtn.classList.add('submit');
         submitBtn.textContent = 'Submit';
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.setAttribute('type', 'button');
+        cancelBtn.textContent = 'Cancel';
         
         form.appendChild(nameInputContainer);
         form.appendChild(dueDateInputContainer);
         form.appendChild(submitBtn);
+        form.appendChild(cancelBtn);
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -173,14 +177,18 @@ const UI = (() => {
             const project = toDoList.getProject(activeProject);
             let projectName = project.getName();
 
-            if (projectName === 'All' || projectName !== 'Today' || projectName !== 'This Week') {
+            if (projectName === 'All' || projectName === 'Today' || projectName === 'This Week')
                 projectName = 'No Project';
-            }
     
-            project.addTask(task(nameInput.value, projectName, 1, dueDateInput.value));
+            project.addTask(task(nameInput.value, dueDateInput.value, 1, projectName));
 
             loadProject(activeProject);
 
+            modal.classList.remove('active');
+            deactivateOverlay();
+        });
+
+        cancelBtn.addEventListener('click', () => {
             modal.classList.remove('active');
             deactivateOverlay();
         });
