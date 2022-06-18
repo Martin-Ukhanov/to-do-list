@@ -2,6 +2,7 @@ import {toDoList} from "./toDoList";
 import {task} from "./task";
 
 const UI = (() => {
+    const toggleMenuBtn = document.getElementById('toggle-menu-btn');
     const projectBtns = document.querySelectorAll('#menu nav button.project');
     const addProjectBtn = document.getElementById('add-project-btn');
     const addTaskBtn = document.getElementById('add-task-btn');
@@ -19,16 +20,6 @@ const UI = (() => {
 
         return btn;
     }
-
-    const activateOverlay = () => {
-        const overlay = document.getElementById('overlay');
-        overlay.classList.add('active');
-    };
-    
-    const deactivateOverlay = () => {
-        const overlay = document.getElementById('overlay');
-        overlay.classList.remove('active');
-    };
 
     const createTask = (task) => {
         const createIconBtn = (iconType) => {
@@ -89,7 +80,7 @@ const UI = (() => {
         const tasksGrid = document.getElementById('tasks-grid');
         const project = toDoList.getProject(name);
         const projectHeading = document.querySelector('#content h2');
-
+        
         activeProject = name;
         projectHeading.textContent = name;
         
@@ -100,6 +91,11 @@ const UI = (() => {
             tasksGrid.appendChild(taskCard);
         }
     }
+    
+    toggleMenuBtn.addEventListener('click', () => {
+        const menu = document.getElementById('menu');
+        menu.classList.toggle('active');
+    });
 
     // Load All project by default
     loadProject(activeProject);
@@ -129,56 +125,44 @@ const UI = (() => {
 
         const form = document.createElement('form');
 
-        // Name input
-        const nameInputContainer = document.createElement('div');
+        const nameInput = createInputElement('Name:', 'text', 'name-input', 'name');
+        const dueDateInput = createInputElement('Due Date:', 'date', 'due-date-input', 'dueDate');
 
-        const nameInputLabel = document.createElement('label');
-        nameInputLabel.setAttribute('for', 'name-input');
-        nameInputLabel.textContent = 'Name:';
+        // Priority input
+        const priorityContainer = document.createElement('div');
+        priorityContainer.setAttribute('id', 'priority-container');
+    
+        const priorityOneInput = createInputElement('1', 'radio', 'priority-input', 'priority', '1');
+        const priorityTwoInput = createInputElement('2', 'radio', 'priority-input', 'priority', '2');
+        const priorityThreeInput = createInputElement('3', 'radio', 'priority-input', 'priority', '3');
 
-        const nameInput = document.createElement('input');
-        nameInput.setAttribute('type', 'text');
-        nameInput.setAttribute('id', 'name-input');
+        priorityContainer.appendChild(priorityOneInput);
+        priorityContainer.appendChild(priorityTwoInput);
+        priorityContainer.appendChild(priorityThreeInput);
 
-        nameInputContainer.appendChild(nameInputLabel);
-        nameInputContainer.appendChild(nameInput);
-
-        // Due date input
-        const dueDateInputContainer = document.createElement('div');
-        
-        const dueDateInputLabel = document.createElement('label');
-        dueDateInputLabel.setAttribute('for', 'due-date-input');
-        dueDateInputLabel.textContent = 'Due Date:';
-
-        const dueDateInput = document.createElement('input');
-        dueDateInput.setAttribute('type', 'date');
-        dueDateInput.setAttribute('id', 'due-date-input');
-
-        dueDateInputContainer.appendChild(dueDateInputLabel);
-        dueDateInputContainer.appendChild(dueDateInput);
-
-        const submitBtn = document.createElement('button');
-        submitBtn.setAttribute('type', 'submit');
+        // Submit button
+        const submitBtn = createButton('Submit', 'submit');
         submitBtn.classList.add('submit');
-        submitBtn.textContent = 'Submit';
 
-        const cancelBtn = document.createElement('button');
-        cancelBtn.setAttribute('type', 'button');
-        cancelBtn.textContent = 'Cancel';
+        // Cancel button
+        const cancelBtn = createButton('Cancel', )
         
-        form.appendChild(nameInputContainer);
-        form.appendChild(dueDateInputContainer);
+        form.appendChild(nameInput);
+        form.appendChild(dueDateInput);
+        form.appendChild(priorityContainer);
         form.appendChild(submitBtn);
         form.appendChild(cancelBtn);
 
+        // Submit form
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
             const project = toDoList.getProject(activeProject);
             let projectName = project.getName();
 
-            if (projectName === 'All' || projectName === 'Today' || projectName === 'This Week')
+            if (projectName === 'All' || projectName === 'Today' || projectName === 'This Week') {
                 projectName = 'No Project';
+            }
     
             project.addTask(task(nameInput.value, dueDateInput.value, 1, projectName));
 
@@ -188,6 +172,7 @@ const UI = (() => {
             deactivateOverlay();
         });
 
+        // Cancel add task
         cancelBtn.addEventListener('click', () => {
             modal.classList.remove('active');
             deactivateOverlay();

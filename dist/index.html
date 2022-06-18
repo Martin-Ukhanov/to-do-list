@@ -50,10 +50,43 @@
                     <span class="material-symbols-outlined">add</span>
                     <p>Add Task</p>
                 </button>
+                <form action="#">
+                    <div class="input">
+                        <div class="name">
+                            <label for="name-input">Name</label>
+                            <input type="text" name="name" id="name-input">
+                        </div>
+                        <div>
+                            <div class="due-date">
+                                <label for="due-date-input">Due Date</label>
+                                <input type="date" name="dueDate" id="due-date-input">
+                            </div>
+                            <div class="priority">
+                                <p>Priority</p>
+                                <div>
+                                    <div>
+                                        <label for="priority-input">1</label>
+                                        <input type="radio" name="priority" id="priority-input" value="1">
+                                    </div>
+                                    <div>
+                                        <label for="priority-input">2</label>
+                                        <input type="radio" name="priority" id="priority-input" value="2">
+                                    </div>
+                                    <div>
+                                        <label for="priority-input">3</label>
+                                        <input type="radio" name="priority" id="priority-input" value="3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit">Submit</button>
+                        <button type="button">Cancel</button>
+                    </div>
+                </form>
                 <div id="tasks-grid"></div>
             </div>
         </main>
-        <div id="overlay"></div>
-        <div id="modal"></div>
     </body>
 </html>
