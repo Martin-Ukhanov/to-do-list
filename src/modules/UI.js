@@ -6,6 +6,7 @@ const UI = (() => {
     const projectBtns = document.querySelectorAll('#menu nav button.project');
     const addProjectBtn = document.getElementById('add-project-btn');
     const addTaskBtn = document.getElementById('add-task-btn');
+    const addTaskForm = document.getElementById('add-task-form');
 
     let activeProject = 'All';
 
@@ -52,23 +53,8 @@ const UI = (() => {
         const nav = document.createElement('nav');
         
         const completeBtn = createIconBtn('check_box_outline_blank');
-        const settingsBtn = createIconBtn('settings');
         
         nav.appendChild(completeBtn);
-        nav.appendChild(settingsBtn);
-    
-        // Priority
-        switch (task.getPriority()) {
-            case 1:
-                taskContainer.classList.add('priority-1');
-                break;
-            case 2:
-                taskContainer.classList.add('priority-2');
-                break;
-            case 3:
-                taskContainer.classList.add('priority-3');
-                break;
-        }
     
         taskContainer.appendChild(textContainer);
         taskContainer.appendChild(nav);
@@ -111,75 +97,40 @@ const UI = (() => {
         });
     });
 
-    // Activate add task modal
     addTaskBtn.addEventListener('click', () => {
-        const modal = document.getElementById('modal');
+        addTaskForm.classList.add('active');
+        addTaskBtn.classList.remove('active');
+    });
 
-        activateOverlay();
+    const cancelAddTaskBtn = document.getElementById('cancel-add-task-btn');
+    cancelAddTaskBtn.addEventListener('click', () => {
+        addTaskForm.classList.remove('active');
+        addTaskBtn.classList.add('active');
+    })
 
-        modal.innerHTML = '';
-        modal.classList.add('active');
+    // Add new task from form
+    addTaskForm.addEventListener('submit', (e) => {
+        console.log('Hello');
+        const name = document.getElementById('name-input').value;
+        const dueDate = document.getElementById('due-date-input').value;
 
-        const heading = document.createElement('h2');
-        heading.textContent = 'Add Task';
+        e.preventDefault();
 
-        const form = document.createElement('form');
+        const project = toDoList.getProject(activeProject);
+        let projectName = project.getName();
 
-        const nameInput = createInputElement('Name:', 'text', 'name-input', 'name');
-        const dueDateInput = createInputElement('Due Date:', 'date', 'due-date-input', 'dueDate');
-
-        // Priority input
-        const priorityContainer = document.createElement('div');
-        priorityContainer.setAttribute('id', 'priority-container');
+        if (projectName === 'All' || projectName === 'Today' || projectName === 'This Week') {
+            projectName = 'No Project';
+        }
     
-        const priorityOneInput = createInputElement('1', 'radio', 'priority-input', 'priority', '1');
-        const priorityTwoInput = createInputElement('2', 'radio', 'priority-input', 'priority', '2');
-        const priorityThreeInput = createInputElement('3', 'radio', 'priority-input', 'priority', '3');
+        project.addTask(task(name, dueDate, projectName));
 
-        priorityContainer.appendChild(priorityOneInput);
-        priorityContainer.appendChild(priorityTwoInput);
-        priorityContainer.appendChild(priorityThreeInput);
+        loadProject(activeProject);
 
-        // Submit button
-        const submitBtn = createButton('Submit', 'submit');
-        submitBtn.classList.add('submit');
-
-        // Cancel button
-        const cancelBtn = createButton('Cancel', )
+        addTaskForm.reset();
         
-        form.appendChild(nameInput);
-        form.appendChild(dueDateInput);
-        form.appendChild(priorityContainer);
-        form.appendChild(submitBtn);
-        form.appendChild(cancelBtn);
-
-        // Submit form
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const project = toDoList.getProject(activeProject);
-            let projectName = project.getName();
-
-            if (projectName === 'All' || projectName === 'Today' || projectName === 'This Week') {
-                projectName = 'No Project';
-            }
-    
-            project.addTask(task(nameInput.value, dueDateInput.value, 1, projectName));
-
-            loadProject(activeProject);
-
-            modal.classList.remove('active');
-            deactivateOverlay();
-        });
-
-        // Cancel add task
-        cancelBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-            deactivateOverlay();
-        });
-
-        modal.appendChild(heading);
-        modal.appendChild(form);
+        addTaskForm.classList.remove('active');
+        addTaskBtn.classList.add('active');
     });
 })();
 
