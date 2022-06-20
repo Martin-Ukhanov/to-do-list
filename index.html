@@ -37,10 +37,20 @@
                 </div>
                 <div>
                     <h2>Projects</h2>
-                    <button id="add-project-btn">
+                    <button id="add-project-btn" class="active">
                         <span class="material-symbols-outlined">add</span>
                         <p>Add Project</p>
                     </button>
+                    <form action="#" id="add-project-form">
+                        <div>
+                            <label for="project-name-input">Name</label>
+                            <input type="text" name="projectName" id="project-name-input">
+                        </div>
+                        <div>
+                            <button type="submit">Submit</button>
+                            <button type="button" id="cancel-add-project-btn">Cancel</button>
+                        </div>
+                    </form>
                     <nav class="custom-projects"></nav>
                 </div>
             </div>
