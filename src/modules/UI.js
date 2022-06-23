@@ -1,25 +1,31 @@
-import {toDoList} from "./toDoList";
-import {project} from "./project";
-import {task} from "./task";
+import {ToDoList} from "./ToDoList";
+import {Project} from "./Project";
+import {Task} from "./Task";
 import {parseISO, isToday, isThisWeek} from "date-fns";
 
 const UI = (() => {
     const toggleMenuBtn = document.getElementById('toggle-menu-btn');
     const projectBtns = document.querySelectorAll('#menu nav button.project');
     const addProjectBtn = document.getElementById('add-project-btn');
+    const cancelAddProjectBtn = document.getElementById('cancel-add-project-btn');
     const addProjectForm = document.getElementById('add-project-form');
     const addTaskBtn = document.getElementById('add-task-btn');
+    const cancelAddTaskBtn = document.getElementById('cancel-add-task-btn');
     const addTaskForm = document.getElementById('add-task-form');
 
-    let activeProject = 'All';
+    const allProject = ToDoList.getProject('All');
+    const todayProject = ToDoList.getProject('Today');
+    const thisWeekProject = ToDoList.getProject('This Week');
+
+    let activeProjectName = allProject.getName();
 
     const createProjectBtn = (name) => {
         const btn = document.createElement('button');
         btn.classList.add('project');
 
         btn.innerHTML = `
-            <span class="material-symbols-outlined">checklist</span>
-            <p>${name}</p>`;
+        <span class="material-symbols-outlined">checklist</span>
+        <p>${name}</p>`;
 
         return btn;
     }
@@ -29,13 +35,28 @@ const UI = (() => {
         taskContainer.classList.add('task');
 
         taskContainer.innerHTML += `
-            <div>
-                <p>${task.getProject()}</p>
-                <h2>${task.getName()}</h2>
-                <p>${task.getDueDate()}</p>
-            </div>
-            <button class="material-symbols-outlined">check_box_outline_blank</button>`;
-    
+        <div>
+            <p>${task.getProject()}</p>
+            <h2>${task.getName()}</h2>
+            <p>${task.getDueDate()}</p>
+        </div>
+        <button class="material-symbols-outlined">check_box_outline_blank</button>`;
+        
+        const completeBtn = taskContainer.lastElementChild;
+
+        completeBtn.addEventListener('click', () => {
+            allProject.removeTask(task.getName());
+            todayProject.removeTask(task.getName());
+            thisWeekProject.removeTask(task.getName());
+
+            if (task.getProject() !== 'No Project') {
+                const customProject = toDoList.getProject(task.getProject());
+                customProject.removeTask(task.getName());
+            }
+
+            loadProject(activeProjectName);
+        });
+        
         return taskContainer;
     };
 
@@ -55,10 +76,10 @@ const UI = (() => {
 
     const loadProject = (name) => {
         const tasksGrid = document.getElementById('tasks-grid');
-        const project = toDoList.getProject(name);
+        const project = ToDoList.getProject(name);
         const projectHeading = document.querySelector('#content h2');
         
-        activeProject = name;
+        activeProjectName = name;
         projectHeading.textContent = name;
         
         tasksGrid.innerHTML = '';
@@ -70,7 +91,7 @@ const UI = (() => {
     }
 
     // Load All project by default
-    loadProject(activeProject);
+    loadProject(activeProjectName);
     
     toggleMenuBtn.addEventListener('click', () => {
         const menu = document.getElementById('menu');
@@ -104,21 +125,21 @@ const UI = (() => {
         addProjectBtn.classList.remove('active');
     });
 
-    const cancelAddProjectBtn = document.getElementById('cancel-add-project-btn');
     cancelAddProjectBtn.addEventListener('click', () => {
         addProjectForm.reset();
         addProjectForm.classList.remove('active');
         addProjectBtn.classList.add('active');
     });
 
+    // Add new project from form
     addProjectForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
         const projectName = document.getElementById('project-name-input').value;
 
-        const newProject = project(projectName);
+        const newProject = Project(projectName);
 
-        toDoList.addProject(newProject);
+        ToDoList.addProject(newProject);
 
         loadProjectBtns();
 
@@ -132,7 +153,6 @@ const UI = (() => {
         addTaskBtn.classList.remove('active');
     });
 
-    const cancelAddTaskBtn = document.getElementById('cancel-add-task-btn');
     cancelAddTaskBtn.addEventListener('click', () => {
         addTaskForm.reset();
         addTaskForm.classList.remove('active');
@@ -146,21 +166,21 @@ const UI = (() => {
 
         e.preventDefault();
 
-        const project = toDoList.getProject(activeProject);
+        const project = toDoList.getProject(activeProjectName);
         let projectName = project.getName();
 
         if (projectName === 'All' || projectName === 'Today' || projectName === 'This Week') {
             projectName = 'No Project';
         }
 
-        const newTask = task(name, dueDate, projectName);
+        const newTask = Task(name, dueDate, projectName);
         
         project.addTask(newTask);
 
         if (isToday(parseISO(dueDate))) toDoList.getProject('Today').addTask(newTask);
         if (isThisWeek(parseISO(dueDate))) toDoList.getProject('This Week').addTask(newTask);
 
-        loadProject(activeProject);
+        loadProject(activeProjectName);
 
         addTaskForm.reset();
         

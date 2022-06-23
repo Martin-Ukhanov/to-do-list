@@ -1,12 +1,12 @@
-import {project} from "./project";
+import {Project} from "./Project";
 
-const toDoList = (() => {
+const ToDoList = (() => {
     const projects = [];
 
     // Add default projects
-    projects.push(project('All'));
-    projects.push(project('Today'));
-    projects.push(project('This Week'));
+    projects.push(Project('All'));
+    projects.push(Project('Today'));
+    projects.push(Project('This Week'));
 
     const getProjects = () => projects;
 
@@ -19,10 +19,12 @@ const toDoList = (() => {
 
     const removeProject = (name) => {
         const project = projects.find((project) => project.getName() === name);
-        projects.splice(projects.indexOf(project), 1);
+        if (project !== undefined) {
+            projects.splice(projects.indexOf(project), 1);
+        }
     };
 
     return {getProjects, getProject, addProject, removeProject};
 })();
 
-export {toDoList};
+export {ToDoList};
