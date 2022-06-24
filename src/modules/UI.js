@@ -5,7 +5,6 @@ import {parseISO, isToday, isThisWeek} from "date-fns";
 
 const UI = (() => {
     const toggleMenuBtn = document.getElementById('toggle-menu-btn');
-    const projectBtns = document.querySelectorAll('#menu nav button.project');
     const addProjectBtn = document.getElementById('add-project-btn');
     const cancelAddProjectBtn = document.getElementById('cancel-add-project-btn');
     const addProjectForm = document.getElementById('add-project-form');
@@ -19,24 +18,13 @@ const UI = (() => {
 
     let activeProjectName = allProject.getName();
 
-    const createProjectBtn = (name) => {
-        const btn = document.createElement('button');
-        btn.classList.add('project');
-
-        btn.innerHTML = `
-        <span class="material-symbols-outlined">checklist</span>
-        <p>${name}</p>`;
-
-        return btn;
-    }
-
     const createTask = (task) => {
         const taskContainer = document.createElement('div');
         taskContainer.classList.add('task');
 
         taskContainer.innerHTML += `
         <div>
-            <p>${task.getProject()}</p>
+            <p>${task.getProjectName()}</p>
             <h2>${task.getName()}</h2>
             <p>${task.getDueDate()}</p>
         </div>
@@ -49,8 +37,8 @@ const UI = (() => {
             todayProject.removeTask(task.getName());
             thisWeekProject.removeTask(task.getName());
 
-            if (task.getProject() !== 'No Project') {
-                const customProject = toDoList.getProject(task.getProject());
+            if (task.getProjectName() !== 'No Project') {
+                const customProject = ToDoList.getProject(task.getProjectName());
                 customProject.removeTask(task.getName());
             }
 
@@ -61,16 +49,59 @@ const UI = (() => {
     };
 
     const loadProjectBtns = () => {
-        const container = document.querySelector('nav.custom-projects');
-        container.innerHTML = '';
+        const defaultProjects = document.querySelector('nav.default-projects');
+        const customProjects = document.querySelector('nav.custom-projects');
+
+        defaultProjects.innerHTML = '';
+        customProjects.innerHTML = '';
         
-        for (const project of toDoList.getProjects()) {
+        for (const project of ToDoList.getProjects()) {
             const projectName = project.getName();
 
-            if (projectName !== 'All' && projectName !== 'Today' && projectName !== 'This Week') {
-                const btn = createProjectBtn(projectName);
-                container.appendChild(btn);
+            const projectBtn = document.createElement('button');
+            projectBtn.classList.add('project');
+
+            let projectBtnSymbol;
+            switch (projectName) {
+                case allProject.getName():
+                    projectBtnSymbol = 'calendar_month';
+                    break;
+                case todayProject.getName():
+                    projectBtnSymbol = 'today';
+                    break;
+                case thisWeekProject.getName():
+                    projectBtnSymbol = 'date_range';
+                    break;
+                default:
+                    projectBtnSymbol = 'checklist';
             }
+
+            projectBtn.innerHTML = `
+            <span class="material-symbols-outlined">${projectBtnSymbol}</span>
+            <p>${projectName}</p>`;
+
+            if (projectName === allProject.getName() || projectName === todayProject.getName() || projectName === thisWeekProject.getName()) {
+                defaultProjects.appendChild(projectBtn);
+            } else {
+                customProjects.appendChild(projectBtn);
+            }
+
+            projectBtn.addEventListener('click', () => {
+                if (projectName === 'Today' || projectName === 'This Week') {
+                    addTaskBtn.classList.remove('active');
+                    addTaskForm.classList.remove('active');
+                } else {
+                    addTaskBtn.classList.add('active');
+                }
+    
+                document.querySelectorAll('#menu nav button.project').forEach((projectBtn) => {
+                    projectBtn.classList.remove('active');
+                });
+    
+                projectBtn.classList.add('active');
+    
+                loadProject(projectName);
+            });
         }
     }
 
@@ -90,34 +121,12 @@ const UI = (() => {
         }
     }
 
-    // Load All project by default
+    loadProjectBtns();
     loadProject(activeProjectName);
     
     toggleMenuBtn.addEventListener('click', () => {
         const menu = document.getElementById('menu');
         menu.classList.toggle('active');
-    });
-
-    // Load corresponding project
-    projectBtns.forEach((projectBtn) => {
-        projectBtn.addEventListener('click', () => {
-            const projectName = projectBtn.lastElementChild.textContent;
-
-            if (projectName === 'Today' || projectName === 'This Week') {
-                addTaskBtn.classList.remove('active');
-                addTaskForm.classList.remove('active');
-            } else {
-                addTaskBtn.classList.add('active');
-            }
-
-            projectBtns.forEach((projectBtn) => {
-                projectBtn.classList.remove('active');
-            });
-
-            projectBtn.classList.add('active');
-
-            loadProject(projectName);
-        });
     });
 
     addProjectBtn.addEventListener('click', () => {
@@ -165,8 +174,9 @@ const UI = (() => {
         const dueDate = document.getElementById('due-date-input').value;
 
         e.preventDefault();
-
-        const project = toDoList.getProject(activeProjectName);
+        
+        const project = ToDoList.getProject(activeProjectName);
+        
         let projectName = project.getName();
 
         if (projectName === 'All' || projectName === 'Today' || projectName === 'This Week') {
@@ -176,9 +186,10 @@ const UI = (() => {
         const newTask = Task(name, dueDate, projectName);
         
         project.addTask(newTask);
-
-        if (isToday(parseISO(dueDate))) toDoList.getProject('Today').addTask(newTask);
-        if (isThisWeek(parseISO(dueDate))) toDoList.getProject('This Week').addTask(newTask);
+        
+        if (project.getName() !== allProject.getName()) allProject.addTask(newTask);
+        if (isToday(parseISO(dueDate))) todayProject.addTask(newTask);
+        if (isThisWeek(parseISO(dueDate))) thisWeekProject.addTask(newTask);
 
         loadProject(activeProjectName);
 
