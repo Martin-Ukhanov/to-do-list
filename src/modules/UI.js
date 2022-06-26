@@ -122,6 +122,7 @@ const UI = (() => {
     }
 
     loadProjectBtns();
+    document.querySelector('nav.default-projects > :first-child').classList.add('active');
     loadProject(activeProjectName);
     
     toggleMenuBtn.addEventListener('click', () => {
